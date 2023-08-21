@@ -3,25 +3,6 @@
 ### Step 1 : Download openssl 
 ### Step 2 : validate installation :
 	openssl version -a
-
-### generate private key
-	openssl genrsa -out ssl_pvt.key 2048
-### generate public key
-	openssl rsa -in ssl_pvt.key -pubout ssl_pub.key
-
-### generate csr 
-	openssl req -new -key ssl_pvt.key -out ssl.csr
-	[common name = must match with hostname or ip]
-	password can be put blank , default password : changeme
-	
-### verify 
-	openssl req -text -in ssl.csr -noout -verify
-
-### self signining
-	openssl x509 -in ssl.csr -out ssl.crt -req -signkey ssl_pvt.key -days 3650
-
-
-# Alternate approach
 ### Generate CA
 	openssl genrsa -out ca-key.pem 4096
 	openssl req -new -x509 -sha256 -days 6300 -key ca-key.pem -out ca.pem
@@ -37,7 +18,7 @@
 
 ### Generate Certificate
 #### Create a Certificate Signing Request (CSR)
-	openssl req -new -sha256 -subj "/CN=hostname" -key ca.pem -out cert.csr
+	openssl req -new -sha256 -subj "/CN=hostname" -key ca-key.pem -out cert.csr
 	echo subjectAltName=DNS:your-dns.record,IP:257.10.10.1 >> extfile.cnf
 	echo extendedKeyUsage = serverAuth >> extfile.cnf
 #### Create the certificate
