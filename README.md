@@ -37,7 +37,7 @@
 
 ### Generate Certificate
 #### Create a Certificate Signing Request (CSR)
-	openssl req -new -sha256 -subj "/CN=giveaname" -key cert_key.pem -out cert.csr
+	openssl req -new -sha256 -subj "/CN=hostname" -key ca.pem -out cert.csr
 	echo subjectAltName=DNS:your-dns.record,IP:257.10.10.1 >> extfile.cnf
 	echo extendedKeyUsage = serverAuth >> extfile.cnf
 #### Create the certificate
