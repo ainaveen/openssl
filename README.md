@@ -28,3 +28,10 @@
 	openssl pkcs12 -export -out new-pfx-cert.pfx -inkey private-key.key -in certificate.crt
 #### Convert pem to pfx certificate
 	openssl pkcs12 -inkey ca-key.pem -in cert.pem -export -out cert.pfx
+#### Convert pem to pk12
+	openssl pkcs12 -export -inkey ca-key.pem -in cert.pem -name localhost -out keystore.p12
+#### Convert pk12 to jks usin keytool
+	keytool -importkeystore -srckeystore keystore.p12 -srcstoretype pkcs12 -destkeystore keystore.jks
+
+#### Import the CA-signed certificate to the keystone 
+	keytool -import -trustcacerts -alias server-crt -file server.crt -keystore keystore.jks
